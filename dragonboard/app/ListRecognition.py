@@ -12,7 +12,8 @@ def fetch_raw_list(url):
 
 def sanitise_list(lst):
     toReturn = []
-    for line in lst:
+    lines = lst.split("\n")
+    for line in lines:
         tokens = line.split(' ')
         quantity = -1
         item = ""
@@ -20,12 +21,14 @@ def sanitise_list(lst):
             try:
                 quantity = int(tkn)
             except ValueError as e:
-                item += tkn
+                item += tkn + " "
         
         if (quantity == -1):
             quantity = 1
         
-        toReturn.append({"quantity":quantity, "item": item})
+        item.strip()
+        if (len(item) > 0):
+            toReturn.append({"quantity":quantity, "item": item})
     return toReturn
 
 
