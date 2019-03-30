@@ -6,7 +6,7 @@ class Processor():
     
     def __init__(self, app):
         self.app = app
-        self.savePath = "./scans/"
+        self.savePath = "scans/"
 
     def scanImage(self):
         self.processThread = threading.Thread(target=self.run)
@@ -14,18 +14,7 @@ class Processor():
 
     def run(self):
         file = self.savePath + "scan_" + self.getFileName() + ".jpg"
-
-        for i in [2, 0]:
-            dev = "/dev/video" + str(i)
-            os.system("ffmpeg -i " + dev + " -frames 1 " + file)
-            if (os.path.isfile(file)):
-                print("Failed for: " + dev)
-                log.close()
-                pass
-            else:
-                log.close()
-                break
-
+        os.system("ffmpeg -i /dev/video2 -frames 1 " + file)
         self.app.displayList("Saved in: " + file)
 
     def getFileName(self):
