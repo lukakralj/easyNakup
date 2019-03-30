@@ -21,7 +21,8 @@ def sanitise_list(lst):
             try:
                 quantity = int(tkn)
             except ValueError as e:
-                item += tkn + " "
+                if (len(tkn) > 0):
+                    item += tkn + " "
         
         if (quantity == -1):
             quantity = 1
