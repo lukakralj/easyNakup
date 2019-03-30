@@ -14,13 +14,11 @@ class Processor():
 
     def run(self):
         file = self.savePath + "scan_" + self.getFileName() + ".jpg"
-        line= ""
+
         for i in [2, 0]:
             dev = "/dev/video" + str(i)
-            os.system("ffmpeg -i " + dev + " -frames 1 " + file + " > log.txt")
-            log = open("./log.txt", "r")
-            lines = log.readlines()
-            if (lines[len(lines)-1] == dev + ": No such device"):
+            os.system("ffmpeg -i " + dev + " -frames 1 " + file)
+            if (os.path.isfile(file)):
                 print("Failed for: " + dev)
                 log.close()
                 pass
@@ -28,7 +26,7 @@ class Processor():
                 log.close()
                 break
 
-        self.app.displayList(lines)
+        self.app.displayList("Saved in: " + file)
 
     def getFileName(self):
         timeStruct = time.strptime(time.ctime())
