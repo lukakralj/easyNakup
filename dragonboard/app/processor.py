@@ -18,6 +18,7 @@ class Processor():
         saveTo = self.savePath + filename
         os.system("ffmpeg -i /dev/video2 -frames 1 " + saveTo)
         success = True
+        list = []
         try:
             self.app.setInfoMessage("Scanning complete. Converting...")
             list = pl.process_list(saveTo, filename)
