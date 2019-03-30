@@ -47,7 +47,8 @@ function displayTable() {
                                 }
                             }
                             http1.send(params)
-                            $('#close_modal').click();
+                            let idmodalclose = "#close_modal" + order._id;
+                            $(idmodalclose).click();
                             displayTable();
                              
                         })
@@ -141,7 +142,7 @@ function createModal(order) {
                 </div>
                
                 <div class="modal-footer">
-                    <button id="close_modal" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button id="close_modal${order._id}" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-default" id="order_completed${order._id}">Order Completed</button>
             </div>
             </div>
