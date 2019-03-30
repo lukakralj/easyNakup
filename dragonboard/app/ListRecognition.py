@@ -4,7 +4,7 @@ import json
 
 
 def fetch_raw_list(url):
-    cmd = ['gcloud', 'ml','vision','detect-document',f"{url}"]
+    cmd = ['gcloud', 'ml','vision','detect-document', url]
     result = subprocess.Popen(cmd, 
            stdout=subprocess.PIPE, 
            stderr=subprocess.STDOUT)
