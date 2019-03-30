@@ -11,7 +11,28 @@ def fetch_raw_list(url):
     return((json.loads(result.communicate()[0].decode("utf-8"))['responses'][0]['fullTextAnnotation']['text']))
 
 def sanitise_list(lst):
-    return map(lambda line: {"quantity": ' '.join(line.split(' ')[0:-1]),"item":line.split(' ')[-1]},lst.split('\n')[:-1])
+    toReturn = []
+    lines = lst.split("\n")
+    for line in lines:
+        tokens = line.split(' ')
+        quantity = -1
+        item = ""
+        for tkn in tokens:
+            try:
+                quantity = int(tkn)
+            except ValueError as e:
+                if (len(tkn) > 0):
+                    item += tkn + " "
+        
+        if (quantity == -1):
+            quantity = 1
+        
+        item.strip()
+        if (len(item) > 0):
+            toReturn.append({"quantity":quantity, "item": item})
+    return toReturn
+
+
 
 def get_list(url):
     return sanitise_list(fetch_raw_list(url))

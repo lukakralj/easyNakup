@@ -54,14 +54,15 @@ class Processor():
         print("===========2")
         rawData = {}
         for pair in list:
+            toAdd = pair["quantity"]
             if pair["item"] in rawData:
-                rawData[pair["item"]] += pair["quantity"]
+                rawData[pair["item"]] += toAdd
             else:
-                rawData[pair["item"]] = pair["quantity"]
+                rawData[pair["item"]] = toAdd
         print(rawData)
         print("===========3")
         displayText = ""
-        for (key, value) in rawData:
+        for key, value in rawData.items():
             displayText += "- " + key + ": " + str(value) + "\n"
         print(displayText)
         print("===========4")
