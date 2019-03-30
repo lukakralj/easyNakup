@@ -1,7 +1,7 @@
 import threading
 import os
 import time
-import ocr.ProcessList as pl
+import ProcessList as pl
 
 class Processor():
     
