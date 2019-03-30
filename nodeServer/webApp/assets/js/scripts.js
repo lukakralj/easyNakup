@@ -22,7 +22,14 @@ function displayTable() {
             ids = []
 
             orders.forEach((order) => {
-                if (!ids.includes(order._id)) {
+                skip = false
+                if(order._id == "" || order.city == ""|| order.user == ""|| order.country == ""|| order.orderJSON == ""){
+                    skip = true
+                }
+
+
+
+                if (!ids.includes(order._id) && !skip) {
                     tbodyInner += createTableRow(order)
                     modalsInner += createModal(order)
                     let modalID = "#modal" + order._id;
