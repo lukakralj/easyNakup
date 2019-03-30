@@ -55,7 +55,7 @@ class Application(tk.Frame):
         self.confirmButton.grid(row=2, column=1, padx=10, pady=10) 
 
     def onConfirmClick(self):
-        print(rawList)
+        print(self.rawList)
         self.onQuitClick()
 
     def onCancelClick(self):
