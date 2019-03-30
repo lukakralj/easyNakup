@@ -44,9 +44,10 @@ class Application(tk.Frame):
         self.scanButton.configure(state="disabled")
         self.processor.scanImage()
 
-    def displayList(self, listStr):
+    def displayList(self, rawData, displayText):
         # TODO: display list
-        self.setInfoMessage(listStr)
+        self.rawList = rawData
+        self.setInfoMessage(displayText)
         self.scanText.set("CANCEL")
         self.scanButton.configure(state="active")
         self.scanButton.configure(command=self.onCancelClick)
@@ -67,6 +68,7 @@ class Application(tk.Frame):
 
     def setInfoMessage(self, msg):
         self.canvas.itemconfigure(self.infoLabel, text=msg)
+
         
 
 root = tk.Tk()

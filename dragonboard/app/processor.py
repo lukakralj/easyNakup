@@ -17,9 +17,19 @@ class Processor():
         filename = "scan_" + self.getFileName() + ".jpg"
         saveTo = self.savePath + filename
         os.system("ffmpeg -i /dev/video2 -frames 1 " + saveTo)
-        self.app.setInfoMessage("Scanning complete. Converting...")
-        list = pl.process_list(saveTo, filename)
-        self.app.displayList(list)
+        success = True
+        try:
+            self.app.setInfoMessage("Scanning complete. Converting...")
+            list = pl.process_list(saveTo, filename)
+        except Exception as e:
+            success = False
+            print(e)
+
+        rawData, displayText = self.processList(list)
+        if success:
+            self.app.displayList(rawData, displayText)
+        else:
+            self.app.displayList(None, "Something went wrong. Please try again.")
 
     def getFileName(self):
         timeStruct = time.strptime(time.ctime())
@@ -36,5 +46,24 @@ class Processor():
             return "0" + str(num)
         else:
             return str(num)
+
+    def processList(self, list):
+        print("===========1")
+        print(list)
+        print("===========2")
+        rawData = {}
+        for pair in list:
+            if pair["item"] in rawData:
+                rawData[pair["item"]] += pair["quantity"]
+            else:
+                rawData[pair["item"]] = pair["quantity"]
+        print(rawData)
+        print("===========3")
+        displayText = ""
+        for (key, value) in rawData:
+            displayText += "- " + key + ": " + str(value) + "\n"
+        print(displayText)
+        print("===========4")
+        return rawData, displayText
 
 
