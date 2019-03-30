@@ -8,7 +8,9 @@
   },
   "author": "Danilo Del Busso, Luka Kralj, Alvaro Rausell Guiard",
   "license": "ISC",
-  "dependencies": {
+  "dependencies": {},
+  "devDependencies": {
+    "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "mongoose": "^5.4.20",
     "nodemailer": "^6.0.0",

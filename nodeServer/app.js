@@ -1,21 +1,31 @@
-var app = require('express')();
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
-var db = require('./db');
-var port = 8080;
 
+const express = require('express');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 
-app.get('/', function(req, res){
-  db.User.find({}, function(err, users) {
-    res.send(users);  
-  });
+const app = express();
+const PORT = 8080;
+
+const UserRoute = require('./userRouter');
+const userController = require('./usercontroller')
+
+mongoose.connect("mongodb://localhost/hack", { useNewUrlParser: true }).then(
+  () => {console.log('Database is connected') },
+  err => { console.log('Can not connect to the database'+ err)}
+);
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use('/user', UserRoute);
+
+app.listen(PORT, () => {
+  console.log('Server is running on PORT:',PORT);
 });
 
-http.listen(port, function(){
-  console.log('listening on', port );
-});
-
-io.on('connection', function(socket){
-    console.log('a user connected');
-  });
-  
+app.get('/', (req, res)=>{
+  userController.getAllUsers().then((users)=>{
+    res.send(users)
+    console.log(users)
+  })
+})
