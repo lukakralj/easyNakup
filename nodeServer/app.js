@@ -2,8 +2,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+var cors = require('cors');
 
 const app = express();
+
+app.use(cors());
 const PORT = 8080;
 
 const UserRoute = require('./userRouter');
@@ -24,10 +27,7 @@ app.listen(PORT, () => {
 });
 
 app.get('/', (req, res)=>{
-  userController.getAllUsers().then((users)=>{
-    res.send(users)
-    console.log(users)
-  })
+  
 })
 
 
