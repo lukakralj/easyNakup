@@ -1,5 +1,6 @@
 import tkinter as tk  
 import processor
+import requests
 
 class Application(tk.Frame):       
     def __init__(self, master=None):
@@ -54,7 +55,7 @@ class Application(tk.Frame):
         self.confirmButton.grid(row=2, column=1, padx=10, pady=10) 
 
     def onConfirmClick(self):
-        # TODO: send
+        
         self.onQuitClick()
 
     def onCancelClick(self):
