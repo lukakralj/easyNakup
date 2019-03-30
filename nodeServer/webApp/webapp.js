@@ -11,7 +11,7 @@ app.listen(PORT, () => {
 
 app.use(express.static(__dirname));
 app.get('/', (req, res)=>{
-    res.sendFile(__dirname + '/table.html');
+    res.sendFile(__dirname + '/dashboard.html');
 })
 
 

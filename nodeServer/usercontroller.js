@@ -7,10 +7,22 @@ const sleep = (milliseconds) => {
 
 
 const UserSchema = new Schema({
-    name: {
+    user: {
         type: String
     },
     email: {
+        type: String
+    },
+    orderJSON: {
+        type : String
+    },
+    address : {
+        type: String
+    },
+    city : {
+        type : String
+    },
+    county : {
         type: String
     }
 }, {
@@ -26,18 +38,11 @@ function addUser(user_json_details) {
         if (err) return console.error(err);
     });
 }
-function removeUsers() {
-    User.find({}, function(users){
-        console.log(users)
-    })
-    User.deleteMany({name : "Danilo Del Busso"},function (err, removed) {
-        console.log(removed)
-    });
-}
+
 
 
 async function getAllUsers() {
-   let out = null;
+    let out = null;
     let done = false
     User.find({}, function(err, users){
         out = users;
@@ -55,6 +60,5 @@ async function getAllUsers() {
 module.exports = {
     User,
     addUser,
-    getAllUsers,
-    removeUsers
+    getAllUsers
 }

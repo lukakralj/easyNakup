@@ -1,0 +1,29 @@
+<div id="map"></div>
+
+<!--  Google Maps Plugin    -->
+<script type="text/javascript"
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyANYX4KLn-hv81-RbsEMIBUj3YKTccjEOE"></script>
+
+<script>
+    var myLatlng = new google.maps.LatLng(48.713892, 21.256453);
+    var mapOptions = {
+        zoom: 18,
+        center: myLatlng,
+        scrollwheel: true, //we disable de scroll over the map, it is a really annoing when you scroll through page
+
+    }
+    new google.maps.Map(document.getElementById("map"), mapOptions);
+</script>
+ <style>
+        /* Always set the map height explicitly to define the size of the div
+         * element that contains the map. */
+        #map {
+          height: 100%;
+        }
+        /* Optional: Makes the sample page fill the window. */
+        html, body {
+          height: 100%;
+          margin: 0;
+          padding: 0;
+        }
+    </style>  
