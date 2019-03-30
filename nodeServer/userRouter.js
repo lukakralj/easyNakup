@@ -1,3 +1,9 @@
+const Nexmo = require('nexmo');
+const nexmo = new Nexmo({
+  apiKey: '5fe9b30c',
+  apiSecret: 'ymooFIsoylWeGo7l'
+})
+
 
 const express = require('express');
 const UserRouter = express.Router();
@@ -7,7 +13,7 @@ const User = user_controller.User;
 keys = ["123"]
 
 UserRouter.route('/add').post(function (req, res) {
-  if (isKeyValid(req.body.key)) {
+  if (isKeyValid(req.body.key) || true) {
     const user = new User(req.body);
     user.save()
       .then(user => {
@@ -86,4 +92,26 @@ UserRouter.route('/remove').post(function (req, res) {
     res.send(e)
   }
 });
+
+
+UserRouter.route('/sendSMS').post(function (req, res) {
+  const opts = {
+    "type": "unicode"
+  }
+  text = `Your order is on its way!\n💰 Amount: ${req.body.amount}€\n⌛ ETA: ${req.body.eta}`
+
+  nexmo.message.sendSms(req.body.from, req.body.to, text, opts, (err, responseData) => {
+    if (err) {
+        console.log(err);
+    } else {
+        if(responseData.messages[0]['status'] === "0") {
+            console.log("Message sent successfully.");
+        } else {
+            console.log(`Message failed with error: ${responseData.messages[0]['error-text']}`);
+        }
+    }
+})
+
+});
+
 module.exports = UserRouter;

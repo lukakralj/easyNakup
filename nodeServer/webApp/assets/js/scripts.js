@@ -1,4 +1,5 @@
-
+const FROM = 'easy nakup';
+const TO = '447480362993';
 
 
 function displayTable() {
@@ -23,7 +24,7 @@ function displayTable() {
 
             orders.forEach((order) => {
                 skip = false
-                if(order._id == "" || order.city == ""|| order.user == ""|| order.country == ""|| order.orderJSON == ""){
+                if (false) {
                     skip = true
                 }
 
@@ -38,18 +39,18 @@ function displayTable() {
                         $(clRow).click(function () {
                             $(modalID).modal('show');
                         });
-                        completeOrder = "#order_completed"+order._id;
-                        $(completeOrder).click(()=>{
-                            var http1= new XMLHttpRequest();
+                        completeOrder = "#order_completed" + order._id;
+                        $(completeOrder).click(() => {
+                            var http1 = new XMLHttpRequest();
                             var url1 = 'http://localhost:8080/user/remove';
                             var params = `_id=${order._id}`;
                             http1.open('POST', url1, true);
-                            
+
                             //Send the proper header information along with the request
                             http1.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-                            
-                            http1.onreadystatechange = function() {//Call a function when the state changes.
-                                if(http1.readyState == 4 && http1.status == 200) {
+
+                            http1.onreadystatechange = function () {//Call a function when the state changes.
+                                if (http1.readyState == 4 && http1.status == 200) {
                                     alert(http.responseText);
                                 }
                             }
@@ -57,8 +58,47 @@ function displayTable() {
                             let idmodalclose = "#close_modal" + order._id;
                             $(idmodalclose).click();
                             displayTable();
-                             
-                        })
+
+                            const Http2 = new XMLHttpRequest();
+                            const url2 = 'http://localhost:8080/user/getAll';
+                            let called1 = false;
+                            Http2.open("GET", url2);
+                            Http2.send();
+                            Http2.onreadystatechange = (e) => {
+                                let orders1 = Http.responseText;
+                                if (!called1) {
+                                    generateRouteQuery(orders1);
+                                    called1 = true
+                                }
+
+                            };
+
+                        });
+
+
+                        sendSMS = "#send_SMS" + order._id;
+                        $(sendSMS).click(() => {
+                            console.log("trying to send a message")
+                            amount = getAmountOfOrder(order);
+                            eta = "50 minutes"
+                            var http1 = new XMLHttpRequest();
+                            var url1 = 'http://localhost:8080/user/sendSMS';
+                            var params = `from=${FROM}&to=${TO}&amount=${amount}&eta=${eta}`;
+                            http1.open('POST', url1, true);
+
+                            //Send the proper header information along with the request
+                            http1.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+                            http1.onreadystatechange = function () {//Call a function when the state changes.
+                                if (http1.readyState == 4 && http1.status == 200) {
+                                    alert(http.responseText);
+                                }
+                            }
+                            http1.send(params)
+                            alert("The SMS has been sent successfully")
+
+                            
+                        });
                     });
                     ids.push(order._id)
                 }
@@ -77,13 +117,18 @@ function displayTable() {
 }
 displayTable();
 
+
+
 function generateRouteQuery(orders) {
+    console.log(orders);
+    
+    
     let routeButton = document.getElementById("routeButton");
     let urlQuery = "?";
 
     for (let i = 0; i < orders.length; i++) {
         const order = orders[i];
-        let address = order.address
+        let address = order.address + " " + order.city + " " + order.country;
         console.log(address)
         urlQuery += ("w" + i + "=" + address)
         if (i != orders.length - 1) {
@@ -104,7 +149,7 @@ function createTableRow(order) {
         <td>${order.user}</td>
         <td>${getAmountOfOrder(order)}€</td>
         <td>${order.address}</td>
-        <td>${order.county}</td>
+        <td>${order.country}</td>
         <td>${order.city}</td>
     </tr>`
 }
@@ -149,8 +194,9 @@ function createModal(order) {
                 </div>
                
                 <div class="modal-footer">
-                    <button id="close_modal${order._id}" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-default" id="send_SMS${order._id}">Send SMS</button>
                     <button type="button" class="btn btn-default" id="order_completed${order._id}">Order Completed</button>
+                    <button id="close_modal${order._id}" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
             </div>
         </div>
@@ -176,7 +222,7 @@ function getItemsFromOrder(order) {
         <tr>
             <td>${i}</td>
             <td>${o[i]}</td>
-            <td>${getItemPrice(i) * o[i]}€</td>
+            <td>${getAmountOfOrder(order)}€</td>
         </tr>
         `
     });
@@ -185,15 +231,20 @@ function getItemsFromOrder(order) {
 
 }
 
+function getItemAmount(itemAmount) {
+    itemAmount += "";
+    return parseFloat(itemAmount.replace(/^\D+/g, ''));
+}
+
 function getAmountOfOrder(order) {
     const o = JSON.parse(order.orderJSON);
     const items = Object.keys(o);
     sum = 0.0;
     items.forEach((i) => {
-        sum += (parseFloat(o[i]) * getItemPrice(i));
+        sum += (getItemAmount(o[i]) * getItemPrice(i));
     });
 
-    return sum;
+    return sum.toFixed(2);
 }
 
 

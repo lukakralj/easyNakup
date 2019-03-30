@@ -1,4 +1,5 @@
 
+
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -11,6 +12,17 @@ const PORT = 8080;
 
 const UserRoute = require('./userRouter');
 const userController = require('./usercontroller')
+
+
+
+
+
+
+userController.addBunchOfUsers();
+
+
+
+
 
 mongoose.connect("mongodb://localhost/hack", { useNewUrlParser: true }).then(
   () => {console.log('Database is connected') },
@@ -29,5 +41,6 @@ app.listen(PORT, () => {
 app.get('/', (req, res)=>{
   
 })
+
 
 
