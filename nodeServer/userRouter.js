@@ -46,4 +46,25 @@ UserRouter.route('/getAll').get(function (req, res) {
   });
 });
 
+
+UserRouter.route('/remove').post(function (req, res) {
+  console.log("removing order with id", req.body._id);
+  try {
+
+    User.findOne({ _id: req.body._id }, function (err, result) {
+      result.remove((err) => {
+        if (err) {
+          res.send(err)
+        }
+        else {
+          res.send(result)
+        }
+      });
+      // or simply use
+    })
+  }
+  catch (e) {
+    res.send(e)
+  }
+});
 module.exports = UserRouter;

@@ -31,6 +31,26 @@ function displayTable() {
                         $(clRow).click(function () {
                             $(modalID).modal('show');
                         });
+                        completeOrder = "#order_completed"+order._id;
+                        $(completeOrder).click(()=>{
+                            var http1= new XMLHttpRequest();
+                            var url1 = 'http://localhost:8080/user/remove';
+                            var params = `_id=${order._id}`;
+                            http1.open('POST', url1, true);
+                            
+                            //Send the proper header information along with the request
+                            http1.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                            
+                            http1.onreadystatechange = function() {//Call a function when the state changes.
+                                if(http1.readyState == 4 && http1.status == 200) {
+                                    alert(http.responseText);
+                                }
+                            }
+                            http1.send(params)
+                            $('#close_modal').click();
+                            displayTable();
+                             
+                        })
                     });
                     ids.push(order._id)
                 }
@@ -119,16 +139,16 @@ function createModal(order) {
                         </div>
                     </div>
                 </div>
-                <div  
-                </div>
                
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
+                    <button id="close_modal" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-default" id="order_completed${order._id}">Order Completed</button>
+            </div>
             </div>
         </div>
     </div>
-</div>`;
+    </div>
+`;
 }
 
 
