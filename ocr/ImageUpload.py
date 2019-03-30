@@ -13,4 +13,3 @@ def upload_image(img_path, timestamp):
     return uploaded_image.link
 
 
-print(upload_image('./temp/img2.jpg',"Helloo"))
