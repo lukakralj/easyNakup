@@ -1,21 +1,25 @@
 import threading
 import os
 import time
+import ocr.ProcessList as pl
 
 class Processor():
     
     def __init__(self, app):
         self.app = app
-        self.savePath = "scans/"
+        self.savePath = "./scans/"
 
     def scanImage(self):
         self.processThread = threading.Thread(target=self.run)
         self.processThread.start()
 
     def run(self):
-        file = self.savePath + "scan_" + self.getFileName() + ".jpg"
-        os.system("ffmpeg -i /dev/video2 -frames 1 " + file)
-        self.app.displayList("Saved in: " + file)
+        filename = "scan_" + self.getFileName() + ".jpg"
+        saveTo = self.savePath + filename
+        os.system("ffmpeg -i /dev/video2 -frames 1 " + saveTo)
+        self.app.setInfoMessage("Scanning complete. Converting...")
+        list = pl.process_list(self.savePath, filename)
+        self.app.displayList(list)
 
     def getFileName(self):
         timeStruct = time.strptime(time.ctime())
