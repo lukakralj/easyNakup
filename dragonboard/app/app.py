@@ -1,7 +1,7 @@
 import tkinter as tk  
 import processor
 import requests
-
+from Request import add_order
 class Application(tk.Frame):       
     def __init__(self, master=None):
         tk.Frame.__init__(self, master)
@@ -55,7 +55,7 @@ class Application(tk.Frame):
         self.confirmButton.grid(row=2, column=1, padx=10, pady=10) 
 
     def onConfirmClick(self):
-        
+        print(rawList)
         self.onQuitClick()
 
     def onCancelClick(self):

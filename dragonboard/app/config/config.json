@@ -2,14 +2,18 @@
   {
     "filename": "./images/AlvaroRausell.jpg",
     "personName": "Alvaro Rausell",
-    "address": "34 Portal Way, W3 6BJ, London, UK",
+    "address": "34 Portal Way, W3 6BJ",
+    "city": "London",
+    "country": "UK",
     "phone_no": "447736978829"
   },
 
   {
     "filename": "./images/DaniloDelBusso.jpg",
     "personName": "Danilo del Busso",
-    "address": "Aldwych, London UK",
+    "address": "Aldwych",
+    "city": "London",
+    "country": "UK",
     "phone_no": "447736978829"
   }
 ]

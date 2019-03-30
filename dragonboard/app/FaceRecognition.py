@@ -20,6 +20,8 @@ class FaceRecognition():
         self.known_face_names = self.parser.fetchFaceAttribute("personName")
         self.known_face_address = self.parser.fetchFaceAttribute("address")
         self.known_face_phone = self.parser.fetchFaceAttribute("phone_no")
+        self.known_face_city = self.parser.fetchFaceAttribute("city")
+        self.known_face_country = self.parser.fetchFaceAttribute("country")
         print('Now there are:'+str(len(self.known_face_encodings)))
 
     def encodeImages(self):
@@ -35,6 +37,8 @@ class FaceRecognition():
             address = ''
             usr_name = ''
             phone_no = -1
+            city = ''
+            country = ''
             lst = os.listdir('./images')  # dir is your directory path
             number_files = len(lst)
             if number_files != self.numberOfImages:
@@ -73,6 +77,8 @@ class FaceRecognition():
                         usr_name = self.known_face_names[first_match_index]
                         address = self.known_face_address[first_match_index]
                         phone_no = self.known_face_phone[first_match_index]
+                        city = self.known_face_city[first_match_index]
+                        country = self.known_face_country[first_match_index]
                     face_names.append(name)
                  # Display the results
             for (top, right, bottom, left), name in zip(face_locations, face_names ):
@@ -98,7 +104,7 @@ class FaceRecognition():
                 break
 
             if usr_name is not '':
-                return name, address, phone_no
+                return name, address,city,country, phone_no
             self.process_this_frame = not self.process_this_frame
 
 
