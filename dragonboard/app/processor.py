@@ -15,10 +15,10 @@ class Processor():
     def run(self):
         file = self.savePath + "scan_" + self.getFileName() + ".jpg"
         line= ""
-        for i in (0,3):
+        for i in [2, 0]:
             dev = "/dev/video" + str(i)
             os.system("ffmpeg -i " + dev + " -frames 1 " + file + " > log.txt")
-            log = os.open("./log.txt")
+            log = open("./log.txt", "r")
             lines = log.readlines()
             if (lines[len(lines)-1] == dev + ": No such device"):
                 print("Failed for: " + dev)
