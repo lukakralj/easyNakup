@@ -17,13 +17,17 @@ class Processor():
         line= ""
         for i in (0,3):
             dev = "/dev/video" + str(i)
-            output = os.popen("ffmpeg -i " + dev + " -frames 1 " + file)
-            lines = output.readlines()
+            os.system("ffmpeg -i " + dev + " -frames 1 " + file + " > log.txt")
+            log = os.open("./log.txt")
+            lines = log.readlines()
             if (lines[len(lines)-1] == dev + ": No such device"):
+                print("Failed for: " + dev)
+                log.close()
                 pass
             else:
+                log.close()
                 break
-        
+
         self.app.displayList(lines)
 
     def getFileName(self):
