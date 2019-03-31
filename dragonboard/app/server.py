@@ -39,9 +39,9 @@ async def scan(sid):
     except Exception as e:
         success = False
         print(e)
-
+    print("Processing list...")
     rawData = processList(list)
-
+    print("Success: " + str(success))
     if (success):
         await sio.emit('scan_result',rawData)
     else:
