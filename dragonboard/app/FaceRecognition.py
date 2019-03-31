@@ -3,6 +3,8 @@ import cv2
 from configParser import ConfigParser
 import face_recognition
 import os
+import sys
+
 class FaceRecognition():
     def __init__(self,image_path):
         super().__init__()
@@ -86,3 +88,6 @@ class FaceRecognition():
 
 
 
+image = os.path.abspath(sys.argv[1])
+if image:
+    FaceRecognition(image).run()
