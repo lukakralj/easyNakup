@@ -1,4 +1,3 @@
-
 import cv2
 from configParser import ConfigParser
 import face_recognition
@@ -40,7 +39,7 @@ class FaceRecognition():
         phone_no = -1
         city = ''
         country = ''
-        lst = os.listdir('./images')  # dir is your directory path
+        lst = os.listdir(sys.argv[2]+'/images')  # dir is your directory path
         number_files = len(lst)
         if number_files != self.numberOfImages:
             self.numberOfImages = number_files
@@ -90,4 +89,4 @@ class FaceRecognition():
 
 image = os.path.abspath(sys.argv[1])
 if image:
-    FaceRecognition(image).run()
+    print(FaceRecognition(image).run())

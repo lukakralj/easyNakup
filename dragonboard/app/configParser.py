@@ -8,7 +8,7 @@ class ConfigParser:
         self.loadConfig()
 
     def loadConfig(self):
-        with open(pathAdd+Configs.configs['path']+"config.json") as file:
+        with open("/Users/alvarorausell/Documents/Personal/HackKosice/nodeServer/../dragonboard/app"+Configs.configs['path']+"config.json") as file:
             jsonString = file.read()
             self.loader = json.loads(jsonString)
 
@@ -16,7 +16,7 @@ class ConfigParser:
         if self.loader:
             for face in self.loader:
                 if face["filename"] == name:
-                    return (face["filename"], face["personName"], face["address"])
+                    return ("/Users/alvarorausell/Documents/Personal/HackKosice/nodeServer/../dragonboard/app"+face["filename"], face["personName"], face["address"])
         return None
 
     def fetchFaceAttribute(self, attribute=None):
@@ -24,9 +24,10 @@ class ConfigParser:
         if self.loader:
             for face in self.loader:
                 if attribute:
-                    attributes.append(face[attribute])
+                    if attribute == 'filename':
+                        attributes.append("/Users/alvarorausell/Documents/Personal/HackKosice/nodeServer/../dragonboard/app"+face['filename'])
+                    else:
+                        attributes.append(face[attribute])
                 else:
                     attributes.append(face)
         return attributes
-
-

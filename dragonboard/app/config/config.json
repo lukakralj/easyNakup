@@ -1,6 +1,6 @@
 [
   {
-    "filename": "./images/AlvaroRausell.jpg",
+    "filename": "/images/AlvaroRausell.jpg",
     "personName": "Alvaro Rausell",
     "address": "town hall",
     "city": "Kosice",
@@ -9,7 +9,7 @@
   },
 
   {
-    "filename": "./images/DaniloDelBusso.jpg",
+    "filename": "/images/DaniloDelBusso.jpg",
     "personName": "Danilo del Busso",
     "address": "Tajovského 1381/13",
     "city": "Kosice",
