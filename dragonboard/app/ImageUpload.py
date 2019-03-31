@@ -3,7 +3,7 @@ import os
 
 
 
-CLIENT_ID = "b47aa358815866d"
+CLIENT_ID = "cf2ef4b3e55ca0b"
 
 def upload_image(img_path, timestamp):
     im = pyimgur.Imgur(CLIENT_ID)
