@@ -64,7 +64,7 @@ UserRouter.route("/getUser").get(function(req, res) {
 
 UserRouter.route("/getAll").get(function(req, res) {
   user_controller.getAllUsers().then(allusers => {
-    res.send(allusers);
+    res.send(allusers.filter(order => order.orderJSON !== "{}"));
   });
 });
 
@@ -131,15 +131,18 @@ UserRouter.route("/image").post((req, res1) => {
     request(uri)
       .pipe(fs.createWriteStream("people/i.jpg"))
       .on("close", () => {
-        command = "python3 " + "../dragonboard/app/FaceRecognition.py " + __dirname + "/people/i.jpg " + __dirname + "/../dragonboard/app";
-        cmd.get(
-          command,
-          (err, data, stderr) => {
-            console.log(command)
-            if (data) res1.json(data);
-            else res1.json(false);
-          }
-        );
+        command =
+          "python3 " +
+          "../dragonboard/app/FaceRecognition.py " +
+          __dirname +
+          "/people/i.jpg " +
+          __dirname +
+          "/../dragonboard/app";
+        cmd.get(command, (err, data, stderr) => {
+          console.log(command);
+          if (data) res1.json(data);
+          else res1.json(false);
+        });
       });
   });
 });
