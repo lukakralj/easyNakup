@@ -10,15 +10,22 @@
 
 <body>
     <div id="buttondiv">
-        <button id="button" type="submit">Send</button>
-    </div>
-</body>
+        <button id="scanbutton" type="submit">
+            Scan
+            ║█║▌║█║▌│║▌║▌█║
+        </button>
 
+        <button id="listbutton" type="submit" style="display:none">
+            Send List
+        </button>
+    </div>
+
+</body>
 <script>
     const socket = io("http://0.0.0.0:8080");
-    var button = null;
-    document.getElementById('button').addEventListener('click', function clickHandler(e) {
-
+    var scanbutton = null;
+    document.getElementById('listbutton').addEventListener('click', function clickHandler(e) {
+        this.innerHTML = "send list "
         this.removeEventListener('click', clickHandler, false);
 
         e.preventDefault();
@@ -28,31 +35,96 @@
             self.className = 'loading';
         }, 125);
 
-
         socket.emit('scan')
 
     }, false);
 
+    document.getElementById('scanbutton').addEventListener('click', function clickHandler(e) {
+        this.innerHTML = "Scan"
+        this.removeEventListener('click', clickHandler, false);
+
+        e.preventDefault();
+        scanbutton = this;
+        self = this;
+        setTimeout(function () {
+            self.className = 'ready';
+            self.style = "disable"
+            document.getElementById('listbutton').style = "display:visible"
+        }, 1000);
+
+
+    }, false);
+
+
+
+
     socket.on('scan_result', function (result) {
-        if (button != null) {
+        if (scanbutton != null) {
             setTimeout(function () {
-                self.className = 'ready';
-            }, 125);
+                scanbutton.className = 'ready';
+                document.getElementById("buttondiv").innerHTML = generateList(result)
+                    + `<button id="confirmbutton" type="submit" >
+                             Confirm
+                            </button>`;
+                document.getElementById('confirmbutton').addEventListener('click', function clickHandler(e) {
+                    this.innerHTML = "Confirm"
+                    this.removeEventListener('click', clickHandler, false);
 
-            elements = "";
-            result.forEach((el)=>{
-                elements += JSON.stringify(el);
-            })
-            document.getElementById("buttondiv").innerHTML = "<p>"+ elements+"</p>"
+                    e.preventDefault();
+                    s = this;
+                    setTimeout(function () {
+                        self.style = "disable"
+                        location.reload();
 
+                    }, 1000);
+                    s.className = 'loading';
+
+
+
+                }, false);
+            }, 500);
 
 
         }
     })
 
 
+
+    function generateList(elements) {
+        return `
+            <table style="width:100%">
+                <tr>
+                    <th>Item</th>
+                    <th>Amount</th>
+                </tr>
+                ${getItemsFromOrder(elements)}
+                `;
+
+    }
+
     function buttonClicked() {
         socket.emit('scan')
+    }
+
+
+
+    function getItemsFromOrder(order) {
+        itemshtml = "";
+        order.forEach((e) => {
+            itemshtml += `
+                <tr>
+                    <td>${e.item}</td>
+                    <td>${e.quantity}</td>
+                </tr>
+                `
+        })
+
+
+        console.log(order)
+
+
+        return itemshtml;
+
     }
 </script>
 
@@ -258,7 +330,7 @@
         border-radius: 0;
         background-color: transparent;
         color: #8cce1e;
-        content: 'ready';
+        content: 'ready => ';
         opacity: 0;
         z-index: 2;
         animation: button-ready-label 0.5s forwards 0.275s;
