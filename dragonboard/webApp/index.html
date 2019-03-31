@@ -56,13 +56,8 @@
         e.preventDefault();
         scanbutton = this;
         self = this;
-        setTimeout(function () {
-            self.className = 'ready';
-            self.style = "disable"
-            document.getElementById('listbutton').style = "display:visible"
-        }, 1000);
-
-
+        
+        socket.emit("auth");
     }, false);
 
 
@@ -132,6 +127,17 @@
     socket.on("scan_failed", function() {
         alert("Scanning failed.")
         location.reload()
+    });
+
+    socket.on("auth_failed", function() {
+        alert("Authentication failed.")
+        location.reload()
+    });
+
+    socket.on("auth_success", function() {
+        scanbutton.className = 'ready';
+        scanbutton.style = "disable"
+        document.getElementById('listbutton').style = "display:visible"
     });
 
 

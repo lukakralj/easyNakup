@@ -2,7 +2,15 @@ from aiohttp import web
 import socketio
 import ProcessList as pl
 import os
+import sys
 import time
+from google.cloud import vision
+from google.cloud.vision import types
+from PIL import Image, ImageDraw
+
+client = vision.ImageAnnotatorClient()
+
+
 
 # creates a new Async Socket IO Server
 sio = socketio.AsyncServer()
@@ -10,10 +18,56 @@ sio = socketio.AsyncServer()
 app = web.Application()
 
 
+if len(sys.argv) > 0:
+    webcamIndex = sys.argv[0]
+    print("Webcam index set to: " + webcamIndex)
+else:
+    print("No webcam index specified.")
+    quit(1)
 
 # Binds our Socket.IO server to our Web App
 # instance
 sio.attach(app)
+
+@sio.on('auth')
+async def auth(sid):
+    savePath = "./scans/"
+    filename = "faceID_" + getFileName() + ".jpg"
+    saveTo = savePath + filename
+    print("Scanning face...")
+    os.system("ffmpeg -i /dev/video" + webcamIndex + " -frames 1 " + saveTo)
+    success = True
+    
+    # TODO: add recognition
+    mainAuth(saveTo, 1)
+
+    print("Success: " + str(success))
+    if (success):
+        await sio.emit('auth_success')
+    else:
+        await sio.emit('auth_failed')
+
+def detect_face(face_file, max_results=4):
+    """Uses the Vision API to detect faces in the given file.
+
+    Args:
+        face_file: A file-like object containing an image with faces.
+
+    Returns:
+        An array of Face objects with information about the picture.
+    """
+    client = vision.ImageAnnotatorClient()
+
+    content = face_file.read()
+    image = types.Image(content=content)
+
+    return client.face_detection(image=image, max_results=max_results).face_annotations
+
+def mainAuth(input_filename, max_results):
+    with open(input_filename, 'rb') as image:
+        faces = detect_face(image, max_results)
+        print(faces)
+
 
 # we can define aiohttp endpoints just as we normally
 # would with no change
@@ -30,7 +84,7 @@ async def scan(sid):
     filename = "scan_" + getFileName() + ".jpg"
     saveTo = savePath + filename
     print("Scanning...")
-    os.system("ffmpeg -i /dev/video2 -frames 1 " + saveTo)
+    os.system("ffmpeg -i /dev/video" + webcamIndex + " -frames 1 " + saveTo)
     success = True
     list = []
     try:
