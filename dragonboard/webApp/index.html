@@ -33,7 +33,7 @@
   document.getElementById("listbutton").addEventListener(
     "click",
     function clickHandler(e) {
-      this.innerHTML = "send list ";
+      this.innerHTML = "list";
       this.removeEventListener("click", clickHandler, false);
 
       e.preventDefault();
@@ -124,7 +124,7 @@
             };
             http1.send(params);
 
-            if (medicineJSON !== {}) {
+            if (medicineJSON !== {} && false) {
               var http2 = new XMLHttpRequest();
               var params = `user=${name}&email=email@email.com&city=${city}&country=${country}&orderJSON=${JSON.stringify(
                 medicineJSON
