@@ -86,4 +86,3 @@ class FaceRecognition():
 
 
 
-print (FaceRecognition('./AlvaroRausell.jpg').run())
