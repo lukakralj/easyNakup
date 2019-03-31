@@ -98,7 +98,7 @@ UserRouter.route('/sendSMS').post(function (req, res) {
   const opts = {
     "type": "unicode"
   }
-  text = `Your order is on its way!\n💰 Amount: ${req.body.amount}€\n⌛ ETA: ${req.body.eta}`
+  text = `Your order is on its way!\n💰 Amount: ${req.body.amount}€\n⌛ ETA: ${req.body.eta}\n\n\nReceipt\n--------------------------\nItem | Quantity | Amount\n--------------------------\n${req.body.list}`
 
   nexmo.message.sendSms(req.body.from, req.body.to, text, opts, (err, responseData) => {
     if (err) {

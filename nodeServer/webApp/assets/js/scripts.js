@@ -81,9 +81,11 @@ function displayTable() {
                             console.log("trying to send a message")
                             amount = getAmountOfOrder(order);
                             eta = "50 minutes"
+                            list = getItemsFromOrderText(order);
+
                             var http1 = new XMLHttpRequest();
                             var url1 = 'http://localhost:5050/user/sendSMS';
-                            var params = `from=${FROM}&to=${TO}&amount=${amount}&eta=${eta}`;
+                            var params = `from=${FROM}&to=${TO}&amount=${amount}&eta=${eta}&list=${list}`;
                             http1.open('POST', url1, true);
 
                             //Send the proper header information along with the request
@@ -218,11 +220,12 @@ function getItemsFromOrder(order) {
         console.error("order is empty")
     }
     items.forEach((i) => {
+        
         itemshtml += `
         <tr>
             <td>${i}</td>
             <td>${o[i]}</td>
-            <td>${getAmountOfOrder(order)}€</td>
+            <td>${(getItemAmount(o[i])* getItemPrice(i))}€</td>
         </tr>
         `
     });
@@ -230,10 +233,28 @@ function getItemsFromOrder(order) {
     return itemshtml;
 
 }
+function getItemsFromOrderText(order){
+    text = "";
+
+    const o = JSON.parse(order.orderJSON);
+    items = []
+    try {
+        items = Object.keys(o);
+    } catch{
+        console.error("order is empty")
+    }
+    items.forEach((i) => {
+        text += `${i} | ${o[i]} | ${(getItemAmount(o[i])* getItemPrice(i)).toFixed(2)}€\n`
+    });
+
+    return text;
+}
 
 function getItemAmount(itemAmount) {
     itemAmount += "";
-    return parseFloat(itemAmount.replace(/^\D+/g, ''));
+    itemAmount = itemAmount.replace(/^\D+/g, '');
+    return itemAmount;
+    
 }
 
 function getAmountOfOrder(order) {
