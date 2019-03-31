@@ -51,7 +51,7 @@
   document.getElementById("scanbutton").addEventListener(
     "click",
     function clickHandler(e) {
-      this.innerHTML = "scanning please wait...";
+      this.innerHTML = "📷";
       this.removeEventListener("click", clickHandler, false);
 
       e.preventDefault();
