@@ -39,24 +39,12 @@ async def scan(sid):
     except Exception as e:
         success = False
         print(e)
-    print("Processing list...")
-    rawData = processList(list)
+
     print("Success: " + str(success))
     if (success):
         await sio.emit('scan_result',rawData)
     else:
         await sio.emit('scan_failed')
-    
-
-def processList(list):
-    rawData = {}
-    for pair in list:
-        toAdd = pair["quantity"]
-        if pair["item"] in rawData:
-            rawData[pair["item"]] += toAdd
-        else:
-            rawData[pair["item"]] = toAdd
-    return rawData
 
 def getFileName():
     timeStruct = time.strptime(time.ctime())

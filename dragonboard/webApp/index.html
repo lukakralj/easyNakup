@@ -69,6 +69,7 @@
 
 
     socket.on('scan_result', function (result) {
+        console.log("Result")
         if (scanbutton != null) {
             setTimeout(function () {
                 scanbutton.className = 'ready';
