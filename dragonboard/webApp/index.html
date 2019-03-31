@@ -169,10 +169,37 @@
       location.reload();
     });
 
-    socket.on("auth_success", function() {
-      scanbutton.className = "ready";
-      scanbutton.style = "disable";
-      document.getElementById("listbutton").style = "display:visible";
+    socket.on("auth_success", function(image_url) {
+        /*orderJSON = {}
+
+        var http2 = new XMLHttpRequest();
+        var url1 = 'http://192.168.137.210:5050/user/auth';
+        var params = ``;
+        params = params.replace(" ", "%20")
+        console.log(params)
+        http2.open('GET', url1, true);
+
+        //Send the proper header information along with the request
+        http2.setRequestHeader('Content-type', 'image/jpeg');
+
+        http2.onreadystatechange = function () {//Call a function when the state changes.
+            if (http2.readyState == 4 && http2.status == 200) {
+            }
+        }
+        http2.send(params)
+
+        e.preventDefault();
+        s = this;
+        setTimeout(function () {
+            self.style = "disable"
+            location.reload();
+        }, 1000);
+
+        s.className = 'loading';
+
+        scanbutton.className = 'ready';
+        scanbutton.style = "disable"
+        document.getElementById('listbutton').style = "display:visible"*/
     });
 
     function generateList(elements) {
