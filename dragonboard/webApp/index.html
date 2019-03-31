@@ -93,7 +93,7 @@
               orderJSON[r.item] = r.quantity;
             });
             names = ["Danilo", "Alvaro", "Luka", "Francisco", "Johannes", "Giovanna"]
-            addresses = ["town hall", "cultural center", "43 old city", "peres"]
+            addresses = ["cultural center", "43 old city", "peres"]
             
             var name = names[Math.floor(Math.random() * 6)];
 
@@ -101,7 +101,7 @@
             var city = "Kosice";
             var country = "Slovakia";
 
-            address = addresses[Math.floor(Math.random() * 4)] + " " + city + " " + country;
+            address = addresses[Math.floor(Math.random() * 3)] + " " + city + " " + country;
             var http1 = new XMLHttpRequest();
             var url1 = "http://192.168.137.151:5050/user/add";
             var params = `user=${name}&email=email@email.com&city=${city}&country=${country}&orderJSON=${JSON.stringify(
