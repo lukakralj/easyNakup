@@ -1,4 +1,5 @@
 const Nexmo = require('nexmo');
+cont cmd=require('node-cmd');
 const nexmo = new Nexmo({
   apiKey: '5fe9b30c',
   apiSecret: 'ymooFIsoylWeGo7l'
@@ -125,6 +126,12 @@ UserRouter.route('/image').post((req, res1)=>{
     console.log('content-length:', res.headers['content-length']);*/
 
     request(uri).pipe(fs.createWriteStream("people/i.jpg")).on('close', () => {
+      cmd.get("../dragonboard/app/FaceRecognition.py "+people/i.jpg, (err, data, stderr) => {
+        if (data)
+          res1.json(data)
+        else
+          res1.json(false)
+      })
       res1.json("Alvaro")
     });
   });
