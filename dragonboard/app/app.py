@@ -1,8 +1,7 @@
 import tkinter as tk  
 import processor
 import requests
-import Configs
-from tkinter import *
+from FaceRecognition import FaceRecognition
 from Request import add_order
 from PIL import Image
 from PIL import ImageTk as itk
@@ -11,6 +10,10 @@ from PIL import ImageTk as itk
 class Application(tk.Frame):       
     def __init__(self, master=None):
         tk.Frame.__init__(self, master)
+        #self.current_user = ''
+        self.current_user = FaceRecognition.run()
+        #while self.current_user == '':
+         #   pass
         self.master = master
         self.grid(sticky=tk.N+tk.S+tk.E+tk.W)
         
