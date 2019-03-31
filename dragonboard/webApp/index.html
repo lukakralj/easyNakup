@@ -172,22 +172,23 @@
   socket.on("auth_success", function (image_url) {
     orderJSON = {}
 
-    var http2 = new XMLHttpRequest();
+    var http3 = new XMLHttpRequest();
     var ull = 'http://192.168.137.151:5050/user/image';
     var params = `url=${image_url}`;
-    params = params.replace(" ", "%20")
     console.log(params)
-    http2.open('POST', ull, true);
+    http3.open('POST', ull, true);
 
     //Send the proper header information along with the request
-    http2.setRequestHeader(
+    http3.setRequestHeader(
               "Content-type",
               "application/x-www-form-urlencoded"
             );
-    http2.onreadystatechange = function () {//Call a function when the state changes.
-      if (http2.readyState == 4 && http2.status == 200) {
-        alert(http2.responseText)
-        s = this;
+    http3.onreadystatechange = function () {//Call a function when the state changes.
+      if (http3.readyState == 4 && http3.status == 200) {
+        alert(http3.responseText)
+       
+      }
+      s = this;
         setTimeout(function () {
           self.style = "disable"
           location.reload();
@@ -198,9 +199,8 @@
         scanbutton.className = 'ready';
         scanbutton.style = "disable"
         document.getElementById('listbutton').style = "display:visible"
-      }
     }
-    http2.send(params)
+    http3.send(params)
 
 
   });
