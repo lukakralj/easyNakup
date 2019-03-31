@@ -18,7 +18,7 @@ const userController = require('./usercontroller')
 
 
 
-userController.addBunchOfUsers();
+//userController.addBunchOfUsers();
 
 
 
