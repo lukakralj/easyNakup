@@ -22,12 +22,11 @@ class FaceRecognition():
         self.known_face_phone = self.parser.fetchFaceAttribute("phone_no")
         self.known_face_city = self.parser.fetchFaceAttribute("city")
         self.known_face_country = self.parser.fetchFaceAttribute("country")
-        print('Now there are:'+str(len(self.known_face_encodings)))
+
 
     def encodeImages(self):
         images = []
         for filename in self.parser.fetchFaceAttribute("filename"):
-            print('Loading '+filename)
             img = face_recognition.load_image_file(filename)
             images.append(face_recognition.face_encodings(img)[0])
         return images
@@ -81,7 +80,9 @@ class FaceRecognition():
     
 
             if usr_name is not '':
-                return name, address,city,country, phone_no
+                return {"name":name, "address":address,"city":city,"country":country, "phone_no":phone_no}
+            else:
+                return False
 
 
 
