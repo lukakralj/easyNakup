@@ -181,11 +181,10 @@
     http2.open('POST', url1, true);
 
     //Send the proper header information along with the request
-    http1.setRequestHeader(
+    http2.setRequestHeader(
               "Content-type",
               "application/x-www-form-urlencoded"
             );
-            
     http2.onreadystatechange = function () {//Call a function when the state changes.
       if (http2.readyState == 4 && http2.status == 200) {
         alert(http2.responseText)
