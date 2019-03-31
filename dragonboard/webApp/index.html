@@ -11,7 +11,7 @@
 <body>
     <div id="buttondiv">
         <button id="scanbutton" type="submit">
-            Authenticate
+            start
         </button>
 
         <button id="listbutton" type="submit" style="display:none">
@@ -81,7 +81,7 @@
                     
                     address = "Town hall" + " " + city + " " + country;
                     var http1 = new XMLHttpRequest();
-                    var url1 = 'http://localhost:5050/user/add';
+                    var url1 = 'http://192.168.137.210:5050/user/add';
                     var params = `user=${name}&email=email@email.com&city=${city}&country=${country}&orderJSON=${orderJSON}&address=${address}&key=123`;
                     params = params.replace(" ", "%20")
                     console.log(params)
@@ -96,17 +96,6 @@
                         }
                     }
                     http1.send(params)
-
-
-
-
-
-
-
-
-
-
-
 
                     e.preventDefault();
                     s = this;
