@@ -1,4 +1,4 @@
 configs = {
-    'path': './config/'
+    'path': '/config/'
 }
 

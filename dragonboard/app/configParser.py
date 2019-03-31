@@ -3,12 +3,12 @@ import Configs
 
 
 class ConfigParser:
-    def __init__(self):
+    def __init__(self, pathAdd = "."):
         self.loader = None
         self.loadConfig()
 
     def loadConfig(self):
-        with open(Configs.configs['path']+"config.json") as file:
+        with open(pathAdd+Configs.configs['path']+"config.json") as file:
             jsonString = file.read()
             self.loader = json.loads(jsonString)
 
@@ -30,4 +30,3 @@ class ConfigParser:
         return attributes
 
 
-print(ConfigParser().fetchFaceAttribute("personName"))

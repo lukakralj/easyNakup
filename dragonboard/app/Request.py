@@ -11,4 +11,4 @@ def get(data,sub_url):
 def add_order(name,user_info,order):
     return send_post('/user/add',{"user": user_info.name,"city":user_info.city,"country":user_info.country,"address":user_info.address,"orderJSON":order})
 
-
+    

@@ -17,7 +17,7 @@ class FaceRecognition():
         self.numberOfImages = len(self.known_face_encodings)
 
     def loadData(self):
-        self.parser = ConfigParser()
+        self.parser = ConfigParser(sys.argv[2])
         self.known_face_encodings = self.encodeImages()
         self.known_face_names = self.parser.fetchFaceAttribute("personName")
         self.known_face_address = self.parser.fetchFaceAttribute("address")
