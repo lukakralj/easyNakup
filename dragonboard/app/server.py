@@ -71,7 +71,7 @@ async def scan(sid):
         print(e)
 
     print("Success: " + str(success))
-    if (success):
+    if (success && len(list) != 0):
         await sio.emit('scan_result',list)
     else:
         await sio.emit('scan_failed')
