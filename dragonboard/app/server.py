@@ -4,12 +4,8 @@ import ProcessList as pl
 import os
 import sys
 import time
-from google.cloud import vision
-from google.cloud.vision import types
-from PIL import Image, ImageDraw
-from ImageUpload import upload_image
 
-client = vision.ImageAnnotatorClient()
+from ImageUpload import upload_image
 
 
 
@@ -19,8 +15,8 @@ sio = socketio.AsyncServer()
 app = web.Application()
 
 
-if len(sys.argv) > 0:
-    webcamIndex = sys.argv[0]
+if len(sys.argv) > 1:
+    webcamIndex = sys.argv[1]
     print("Webcam index set to: " + webcamIndex)
 else:
     print("No webcam index specified.")
@@ -37,7 +33,7 @@ async def auth(sid):
     saveTo = savePath + filename
     print("Scanning face...")
     os.system("ffmpeg -i /dev/video" + webcamIndex + " -frames 1 " + saveTo)
-    success = False
+    success = True
     
     # TODO: add recognition
     image_url = upload_image(saveTo, filename)
