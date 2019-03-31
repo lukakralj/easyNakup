@@ -12,4 +12,3 @@ def upload_image(img_path, timestamp):
     return uploaded_image.link
 
 
-print(upload_image('./AlvaroRausell.jpg',"Alvarooo"))
