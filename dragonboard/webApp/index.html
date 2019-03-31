@@ -16,7 +16,6 @@
     <button id="listbutton" type="submit" style="display:none">
       Send List
     </button>
-    <button id="snap">Capture</button>
   </div>
   <div class="video-wrap">
     <video id="video" playsinline autoplay></video>
@@ -183,13 +182,14 @@
       "Content-type",
       "application/x-www-form-urlencoded"
     );
+    document.getElementById('scanbutton').className = "loading";
+
     http3.onreadystatechange = function () {//Call a function when the state changes.
       if (http3.readyState == 4 && http3.status == 200) {
         if (http3.responseText.includes("Alvaro") || http3.responseText.includes("Danilo")) {
           s = this;
           setTimeout(function () {
             self.style = "disable"
-            location.reload();
           }, 1000);
 
           s.className = 'loading';
