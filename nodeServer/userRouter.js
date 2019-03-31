@@ -131,14 +131,15 @@ UserRouter.route("/image").post((req, res1) => {
     request(uri)
       .pipe(fs.createWriteStream("people/i.jpg"))
       .on("close", () => {
+        command = "python3 " + "../dragonboard/app/FaceRecognition.py " + __dirname + "/people/i.jpg " + __dirname + "/../dragonboard/app";
         cmd.get(
-          "../dragonboard/app/FaceRecognition.py " + people / i.jpg,
+          command,
           (err, data, stderr) => {
+            console.log(command)
             if (data) res1.json(data);
             else res1.json(false);
           }
         );
-        res1.json("Alvaro");
       });
   });
 });

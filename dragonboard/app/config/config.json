@@ -2,18 +2,18 @@
   {
     "filename": "./images/AlvaroRausell.jpg",
     "personName": "Alvaro Rausell",
-    "address": "34 Portal Way, W3 6BJ",
-    "city": "London",
-    "country": "UK",
-    "phone_no": "447736978829"
+    "address": "town hall",
+    "city": "Kosice",
+    "country": "Slovakia",
+    "phone_no": "447480362993"
   },
 
   {
     "filename": "./images/DaniloDelBusso.jpg",
     "personName": "Danilo del Busso",
-    "address": "Aldwych",
-    "city": "London",
-    "country": "UK",
-    "phone_no": "447736978829"
+    "address": "Tajovského 1381/13",
+    "city": "Kosice",
+    "country": "Slovakia",
+    "phone_no": "447480362993"
   }
 ]
