@@ -7,6 +7,7 @@ import time
 from google.cloud import vision
 from google.cloud.vision import types
 from PIL import Image, ImageDraw
+from ImageUpload import upload_image
 
 client = vision.ImageAnnotatorClient()
 
@@ -36,37 +37,16 @@ async def auth(sid):
     saveTo = savePath + filename
     print("Scanning face...")
     os.system("ffmpeg -i /dev/video" + webcamIndex + " -frames 1 " + saveTo)
-    success = True
+    success = False
     
     # TODO: add recognition
-    mainAuth(saveTo, 1)
+    image_url = upload_image(saveTo, filename)
 
     print("Success: " + str(success))
     if (success):
-        await sio.emit('auth_success')
+        await sio.emit('auth_success', image_url)
     else:
         await sio.emit('auth_failed')
-
-def detect_face(face_file, max_results=4):
-    """Uses the Vision API to detect faces in the given file.
-
-    Args:
-        face_file: A file-like object containing an image with faces.
-
-    Returns:
-        An array of Face objects with information about the picture.
-    """
-    client = vision.ImageAnnotatorClient()
-
-    content = face_file.read()
-    image = types.Image(content=content)
-
-    return client.face_detection(image=image, max_results=max_results).face_annotations
-
-def mainAuth(input_filename, max_results):
-    with open(input_filename, 'rb') as image:
-        faces = detect_face(image, max_results)
-        print(faces)
 
 
 # we can define aiohttp endpoints just as we normally
