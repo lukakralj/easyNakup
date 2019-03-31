@@ -113,7 +113,12 @@
 
 
         }
-    })
+    });
+
+    socket.on("scan_failed", function() {
+        alert("Scanning failed.")
+        location.reload()
+    });
 
 
 

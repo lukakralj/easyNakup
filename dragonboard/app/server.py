@@ -1,6 +1,9 @@
 from aiohttp import web
 import socketio
 import ProcessList as pl
+import os
+import time
+
 # creates a new Async Socket IO Server
 sio = socketio.AsyncServer()
 # Creates a new Aiohttp Web Application
@@ -23,9 +26,53 @@ async def index(request):
 # event we wish to listen out for
 @sio.on('scan')
 async def scan(sid):
-    list =  pl.process_list('./temp/img1.jpg', 'img1.jpg');
-    print(list)
-    await sio.emit('scan_result',list)
+    savePath = "./scans/"
+    filename = "scan_" + getFileName() + ".jpg"
+    saveTo = savePath + filename
+    print("Scanning...")
+    os.system("ffmpeg -i /dev/video2 -frames 1 " + saveTo)
+    success = True
+    list = []
+    try:
+        print("Scanning complete. Converting...")
+        list = pl.process_list(saveTo, filename)
+    except Exception as e:
+        success = False
+        print(e)
+
+    rawData = processList(list)
+
+    if (success):
+        await sio.emit('scan_result',rawData)
+    else:
+        await sio.emit('scan_failed')
+    
+
+def processList(list):
+    rawData = {}
+    for pair in list:
+        toAdd = pair["quantity"]
+        if pair["item"] in rawData:
+            rawData[pair["item"]] += toAdd
+        else:
+            rawData[pair["item"]] = toAdd
+    return rawData
+
+def getFileName():
+    timeStruct = time.strptime(time.ctime())
+    return \
+        padLeft(timeStruct.tm_year) + \
+        padLeft(timeStruct.tm_mon) + \
+        padLeft(timeStruct.tm_mday) + "_" + \
+        padLeft(timeStruct.tm_hour) + \
+        padLeft(timeStruct.tm_min) + \
+        padLeft(timeStruct.tm_sec)
+
+def padLeft(num):
+    if num < 10:
+        return "0" + str(num)
+    else:
+        return str(num)
 
 # We bind our aiohttp endpoint to our app
 # router
