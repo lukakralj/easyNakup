@@ -23,21 +23,21 @@ UserRouter.route('/add').post(function (req, res) {
         res.status(400).send("unable to save to database");
       });
   }
-  else{
+  else {
     res.json("INVALID KEY")
   }
 });
 
-function isKeyValid(key){
+function isKeyValid(key) {
   return keys.includes(key)
 }
 
-UserRouter.route('/addKey').post(function (req, res){
+UserRouter.route('/addKey').post(function (req, res) {
   keys.push(req.body.key);
-  res.json("Added key "+req.body.key)
+  res.json("Added key " + req.body.key)
 });
 
-UserRouter.route('/deleteAllKeys').get(function (req, res){
+UserRouter.route('/deleteAllKeys').get(function (req, res) {
   keys = []
   res.json("Removed all keys")
 });
@@ -102,15 +102,32 @@ UserRouter.route('/sendSMS').post(function (req, res) {
 
   nexmo.message.sendSms(req.body.from, req.body.to, text, opts, (err, responseData) => {
     if (err) {
-        console.log(err);
+      console.log(err);
     } else {
-        if(responseData.messages[0]['status'] === "0") {
-            console.log("Message sent successfully.");
-        } else {
-            console.log(`Message failed with error: ${responseData.messages[0]['error-text']}`);
-        }
+      if (responseData.messages[0]['status'] === "0") {
+        console.log("Message sent successfully.");
+      } else {
+        console.log(`Message failed with error: ${responseData.messages[0]['error-text']}`);
+      }
     }
-})
+  })
+
+});
+
+
+UserRouter.route('/image').post((req, res1)=>{
+  const fs = require('fs')
+  uri = req.body.url;
+  console.log(req.body)
+  const request = require('request')
+  request.head(uri, function (err, res, body) {
+   /* console.log('content-type:', res.headers['content-type']);
+    console.log('content-length:', res.headers['content-length']);*/
+
+    request(uri).pipe(fs.createWriteStream("people/i.jpg")).on('close', () => {
+      res1.json("Alvaro")
+    });
+  });
 
 });
 
