@@ -173,11 +173,11 @@
     orderJSON = {}
 
     var http2 = new XMLHttpRequest();
-    var url1 = 'http://192.168.137.151:5050/user/image';
+    var ull = 'http://192.168.137.151:5050/user/image';
     var params = `url=${image_url}`;
     params = params.replace(" ", "%20")
     console.log(params)
-    http2.open('POST', url1, true);
+    http2.open('POST', ull, true);
 
     //Send the proper header information along with the request
     http2.setRequestHeader(
