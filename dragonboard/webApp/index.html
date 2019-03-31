@@ -1,149 +1,182 @@
 <!DOCTYPE html>
 <html>
-
-<head>
+  <head>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
 
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
 
-    <link rel="stylesheet" href="./styles.css">
-</head>
-
-<body>
+  <body>
     <div id="buttondiv">
-        <button id="scanbutton" type="submit">
-            start
-        </button>
+      <button id="scanbutton" type="submit">
+        start
+      </button>
 
-        <button id="listbutton" type="submit" style="display:none">
-            Send List
-        </button>
-        <button id="snap">Capture</button>
-
+      <button id="listbutton" type="submit" style="display:none">
+        Send List
+      </button>
+      <button id="snap">Capture</button>
     </div>
     <div class="video-wrap">
-            <video id="video" playsinline autoplay></video>
-        </div>
-        
-        <!-- Trigger canvas web API -->
-        <div class="controller">
-        </div>
-        
-        <!-- Webcam video snapshot -->
-        <canvas id="canvas" width="100" height="100"></canvas>
-</body>
-<script>
+      <video id="video" playsinline autoplay></video>
+    </div>
+
+    <!-- Trigger canvas web API -->
+    <div class="controller"></div>
+
+    <!-- Webcam video snapshot -->
+    <canvas id="canvas" width="100" height="100"></canvas>
+  </body>
+  <script>
     const socket = io("http://0.0.0.0:8080");
     var scanbutton = null;
-    document.getElementById('listbutton').addEventListener('click', function clickHandler(e) {
-        this.innerHTML = "send list "
-        this.removeEventListener('click', clickHandler, false);
+    document.getElementById("listbutton").addEventListener(
+      "click",
+      function clickHandler(e) {
+        this.innerHTML = "send list ";
+        this.removeEventListener("click", clickHandler, false);
 
         e.preventDefault();
         button = this;
         self = this;
-        setTimeout(function () {
-            self.className = 'loading';
+        setTimeout(function() {
+          self.className = "loading";
         }, 125);
 
-        socket.emit('scan')
+        socket.emit("scan");
+      },
+      false
+    );
 
-    }, false);
-
-    document.getElementById('scanbutton').addEventListener('click', function clickHandler(e) {
-        this.innerHTML = "Scan"
-        this.removeEventListener('click', clickHandler, false);
+    document.getElementById("scanbutton").addEventListener(
+      "click",
+      function clickHandler(e) {
+        this.innerHTML = "Scan";
+        this.removeEventListener("click", clickHandler, false);
 
         e.preventDefault();
         scanbutton = this;
         self = this;
-        
+
         socket.emit("auth");
-    }, false);
+      },
+      false
+    );
 
-
-
-
-    socket.on('scan_result', function (result) {
-        console.log("Result")
-        if (scanbutton != null) {
-            setTimeout(function () {
-                scanbutton.className = 'ready';
-                document.getElementById("buttondiv").innerHTML = generateList(result)
-                    + `<button id="confirmbutton" type="submit" >
+    socket.on("scan_result", function(result) {
+      console.log("Result");
+      if (scanbutton != null) {
+        setTimeout(function() {
+          scanbutton.className = "ready";
+          document.getElementById("buttondiv").innerHTML =
+            generateList(result) +
+            `<button id="confirmbutton" type="submit" >
                              Confirm
                             </button>`;
-                document.getElementById('confirmbutton').addEventListener('click', function clickHandler(e) {
-                    this.innerHTML = "Confirm"
-                    this.removeEventListener('click', clickHandler, false);
+          document.getElementById("confirmbutton").addEventListener(
+            "click",
+            function clickHandler(e) {
+              this.innerHTML = "Confirm";
+              this.removeEventListener("click", clickHandler, false);
 
-                    orderJSON = {}
+              orderJSON = {};
+              medicineJSON = {};
+              result.forEach(r => {
+                if (
+                  r.item.toLowerCase() !== "paracetamol" ||
+                  r.item.toLowerCase() !== "aspirin" ||
+                  r.item.toLowerCase() !== "ibuprofen"
+                ) {
+                  medicineJSON[r.item] = r.quantity;
+                  return;
+                }
+                orderJSON[r.item] = r.quantity;
+              });
 
-                    result.forEach((r) => {
-                        orderJSON[r.item] = r.quantity
-                    })
+              var name = "Danilo";
+              var city = "Kosice";
+              var country = "Slovakia";
 
-                    var name = "Danilo"
-                    var city = "Kosice"
-                    var country = "Slovakia"
+              address = "Town hall" + " " + city + " " + country;
+              var http1 = new XMLHttpRequest();
+              var url1 = "http://192.168.137.210:5050/user/add";
+              var params = `user=${name}&email=email@email.com&city=${city}&country=${country}&orderJSON=${JSON.stringify(
+                orderJSON
+              )}&address=${address}&key=123`;
+              params = params.replace(" ", "%20");
+              console.log(params);
+              http1.open("POST", url1, true);
 
-                    address = "Town hall" + " " + city + " " + country;
-                    var http1 = new XMLHttpRequest();
-                    var url1 = 'http://192.168.137.210:5050/user/add';
-                    var params = `user=${name}&email=email@email.com&city=${city}&country=${country}&orderJSON=${JSON.stringify(orderJSON)}&address=${address}&key=123`;
-                    params = params.replace(" ", "%20")
-                    console.log(params)
-                    http1.open('POST', url1, true);
+              //Send the proper header information along with the request
+              http1.setRequestHeader(
+                "Content-type",
+                "application/x-www-form-urlencoded"
+              );
 
-                    //Send the proper header information along with the request
-                    http1.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+              http1.onreadystatechange = function() {
+                //Call a function when the state changes.
+                if (http1.readyState == 4 && http1.status == 200) {
+                }
+              };
+              http1.send(params);
 
-                    http1.onreadystatechange = function () {//Call a function when the state changes.
-                        if (http1.readyState == 4 && http1.status == 200) {
-                        }
-                    }
-                    http1.send(params)
+              if (medicineJSON !== {}) {
+                var http2 = new XMLHttpRequest();
+                var params = `user=${name}&email=email@email.com&city=${city}&country=${country}&orderJSON=${JSON.stringify(
+                  medicineJSON
+                )}&address=${address}&key=123`;
+                params = params.replace(" ", "%20");
+                console.log(params);
+                http2.open("POST", url1, true);
 
-                    e.preventDefault();
-                    s = this;
-                    setTimeout(function () {
-                        self.style = "disable"
-                        location.reload();
+                //Send the proper header information along with the request
+                http2.setRequestHeader(
+                  "Content-type",
+                  "application/x-www-form-urlencoded"
+                );
 
-                    }, 1000);
-                    s.className = 'loading';
+                http2.onreadystatechange = function() {
+                  //Call a function when the state changes.
+                  if (http1.readyState == 4 && http1.status == 200) {
+                  }
+                };
+                http2.send(params);
+              }
 
-
-
-                }, false);
-            }, 500);
-
-
-        }
-        else {
-            console.log("scanbutton is null")
-        }
+              e.preventDefault();
+              s = this;
+              setTimeout(function() {
+                self.style = "disable";
+                location.reload();
+              }, 1000);
+              s.className = "loading";
+            },
+            false
+          );
+        }, 500);
+      } else {
+        console.log("scanbutton is null");
+      }
     });
 
     socket.on("scan_failed", function() {
-        alert("Scanning failed.")
-        location.reload()
+      alert("Scanning failed.");
+      location.reload();
     });
 
     socket.on("auth_failed", function() {
-        alert("Authentication failed.")
-        location.reload()
+      alert("Authentication failed.");
+      location.reload();
     });
 
     socket.on("auth_success", function() {
-        scanbutton.className = 'ready';
-        scanbutton.style = "disable"
-        document.getElementById('listbutton').style = "display:visible"
+      scanbutton.className = "ready";
+      scanbutton.style = "disable";
+      document.getElementById("listbutton").style = "display:visible";
     });
 
-
-
     function generateList(elements) {
-        return `
+      return `
             <table style="width:100%">
                 <tr>
                     <th>Item</th>
@@ -151,287 +184,279 @@
                 </tr>
                 ${getItemsFromOrder(elements)}
                 `;
-
     }
 
     function buttonClicked() {
-        socket.emit('scan')
+      socket.emit("scan");
     }
 
-
-
     function getItemsFromOrder(order) {
-        itemshtml = "";
-        order.forEach((e) => {
-            itemshtml += `
+      itemshtml = "";
+      order.forEach(e => {
+        itemshtml += `
                 <tr>
                     <td>${e.item}</td>
                     <td>${e.quantity}</td>
                 </tr>
-                `
-        })
+                `;
+      });
 
+      console.log(order);
 
-        console.log(order)
-
-
-        return itemshtml;
-
+      return itemshtml;
     }
 
+    ("use strict");
 
-    'use strict';
-
-    const video = document.getElementById('video');
-    const canvas = document.getElementById('canvas');
+    const video = document.getElementById("video");
+    const canvas = document.getElementById("canvas");
     const snap = document.getElementById("snap");
-    const errorMsgElement = document.querySelector('span#errorMsg');
+    const errorMsgElement = document.querySelector("span#errorMsg");
 
     const constraints = {
-        audio: true,
-        video: {
-            width: 1280, height: 720
-        }
+      audio: true,
+      video: {
+        width: 1280,
+        height: 720
+      }
     };
 
     // Access webcam
     async function init() {
-        try {
-            const stream = await navigator.mediaDevices.getUserMedia(constraints);
-            handleSuccess(stream);
-        } catch (e) {
-            errorMsgElement.innerHTML = `navigator.getUserMedia error:${e.toString()}`;
-        }
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia(constraints);
+        handleSuccess(stream);
+      } catch (e) {
+        errorMsgElement.innerHTML = `navigator.getUserMedia error:${e.toString()}`;
+      }
     }
 
     // Success
     function handleSuccess(stream) {
-        window.stream = stream;
-        video.srcObject = stream;
+      window.stream = stream;
+      video.srcObject = stream;
     }
 
     // Load init
     init();
 
     // Draw image
-    var context = canvas.getContext('2d');
-    snap.addEventListener("click", function () {
-        context.drawImage(video, 0, 0, 640, 480);
+    var context = canvas.getContext("2d");
+    snap.addEventListener("click", function() {
+      context.drawImage(video, 0, 0, 640, 480);
     });
-</script>
+  </script>
 
-
-<style>
+  <style>
     @keyframes button-loading {
-        20% {
-            color: transparent;
-            transform: scale(1, 1);
-        }
+      20% {
+        color: transparent;
+        transform: scale(1, 1);
+      }
 
-        40% {
-            border-color: #5585ff;
-            background-color: transparent;
-            transform: scale(1, 1);
-        }
+      40% {
+        border-color: #5585ff;
+        background-color: transparent;
+        transform: scale(1, 1);
+      }
 
-        60% {
-            transform: scale(0.7, 1.1);
-            margin-left: 1.25rem;
-            width: 2.5rem;
-            text-indent: -0.6125rem;
-            color: transparent;
-            border-color: #5585ff;
-            background-color: #5585ff;
-        }
+      60% {
+        transform: scale(0.7, 1.1);
+        margin-left: 1.25rem;
+        width: 2.5rem;
+        text-indent: -0.6125rem;
+        color: transparent;
+        border-color: #5585ff;
+        background-color: #5585ff;
+      }
 
-        80% {
-            transform: scale(1, 1);
-        }
+      80% {
+        transform: scale(1, 1);
+      }
 
-        100% {
-            margin-left: 1.25rem;
-            width: 2.5rem;
-            background-color: #5585ff;
-            border-color: #5585ff;
-            color: transparent;
-        }
+      100% {
+        margin-left: 1.25rem;
+        width: 2.5rem;
+        background-color: #5585ff;
+        border-color: #5585ff;
+        color: transparent;
+      }
     }
 
     @keyframes button-dot-intro {
-        0% {
-            opacity: 0;
-        }
+      0% {
+        opacity: 0;
+      }
 
-        60% {
-            opacity: 1;
-            transform: scale(1, 1);
-        }
+      60% {
+        opacity: 1;
+        transform: scale(1, 1);
+      }
 
-        100% {
-            transform: scale(0.75, 0.75);
-        }
+      100% {
+        transform: scale(0.75, 0.75);
+      }
     }
 
     @keyframes button-dot-pulse {
-        0% {
-            opacity: 1;
-            transform: scale(0.75, 0.75);
-        }
+      0% {
+        opacity: 1;
+        transform: scale(0.75, 0.75);
+      }
 
-        15% {
-            transform: scale(0.85, 0.85);
-        }
+      15% {
+        transform: scale(0.85, 0.85);
+      }
 
-        45% {
-            transform: scale(0.75, 0.75);
-        }
+      45% {
+        transform: scale(0.75, 0.75);
+      }
 
-        55% {
-            transform: scale(0.95, 0.95);
-        }
+      55% {
+        transform: scale(0.95, 0.95);
+      }
 
-        85% {
-            transform: scale(0.75, 0.75);
-        }
+      85% {
+        transform: scale(0.75, 0.75);
+      }
 
-        100% {
-            opacity: 1;
-            transform: scale(0.75, 0.75);
-        }
+      100% {
+        opacity: 1;
+        transform: scale(0.75, 0.75);
+      }
     }
 
     @keyframes button-ready {
-        0% {
-            margin-left: 1.25rem;
-            width: 2.5rem;
-        }
+      0% {
+        margin-left: 1.25rem;
+        width: 2.5rem;
+      }
 
-        10% {
-            background-color: #5585ff;
-            border-color: #5585ff;
-        }
+      10% {
+        background-color: #5585ff;
+        border-color: #5585ff;
+      }
 
-        70% {
-            margin: 0;
-            width: 7.25rem;
-            background-color: #fff;
-            transform: scale(1.1, 1.1);
-        }
+      70% {
+        margin: 0;
+        width: 7.25rem;
+        background-color: #fff;
+        transform: scale(1.1, 1.1);
+      }
 
-        100% {
-            margin: 0;
-            width: 7rem;
-            border-color: #8cce1e;
-            background-color: #fff;
-        }
+      100% {
+        margin: 0;
+        width: 7rem;
+        border-color: #8cce1e;
+        background-color: #fff;
+      }
     }
 
     @keyframes button-dot-outro {
-        0% {
-            opacity: 1;
-        }
+      0% {
+        opacity: 1;
+      }
 
-        100% {
-            opacity: 0;
-            transform: scale(1, 1);
-        }
+      100% {
+        opacity: 0;
+        transform: scale(1, 1);
+      }
     }
 
     @keyframes button-ready-label {
-        0% {
-            opacity: 0;
-        }
+      0% {
+        opacity: 0;
+      }
 
-        100% {
-            opacity: 1;
-        }
+      100% {
+        opacity: 1;
+      }
     }
 
     body {
-        text-align: center;
-        padding: 8rem 3rem;
+      text-align: center;
+      padding: 8rem 3rem;
     }
 
     button {
-        position: relative;
-        overflow: hidden;
-        width: 7rem;
-        color: #5585ff;
-        border: 2px solid #5585ff;
-        background-color: transparent;
-        cursor: pointer;
-        line-height: 2;
-        margin: 0;
-        padding: 0;
-        border-radius: 1.5rem;
-        font-size: 1.125rem;
-        text-transform: lowercase;
-        outline: none;
-        transition: transform 0.125s;
+      position: relative;
+      overflow: hidden;
+      width: 7rem;
+      color: #5585ff;
+      border: 2px solid #5585ff;
+      background-color: transparent;
+      cursor: pointer;
+      line-height: 2;
+      margin: 0;
+      padding: 0;
+      border-radius: 1.5rem;
+      font-size: 1.125rem;
+      text-transform: lowercase;
+      outline: none;
+      transition: transform 0.125s;
     }
 
     button:active {
-        transform: scale(0.9, 0.9);
+      transform: scale(0.9, 0.9);
     }
 
     button:before,
     button:after {
-        position: absolute;
-        opacity: 0;
-        border-radius: 50%;
-        background-color: #fff;
-        top: 50%;
-        left: 50%;
-        margin-top: -1.125rem;
-        margin-left: -1.125rem;
-        width: 2.25rem;
-        height: 2.25rem;
-        content: '';
-        z-index: 1;
+      position: absolute;
+      opacity: 0;
+      border-radius: 50%;
+      background-color: #fff;
+      top: 50%;
+      left: 50%;
+      margin-top: -1.125rem;
+      margin-left: -1.125rem;
+      width: 2.25rem;
+      height: 2.25rem;
+      content: "";
+      z-index: 1;
     }
 
     button.loading {
-        animation: button-loading 0.5s forwards;
+      animation: button-loading 0.5s forwards;
     }
 
     button.loading:before {
-        opacity: 1;
-        animation: button-dot-intro 0.5s forwards;
+      opacity: 1;
+      animation: button-dot-intro 0.5s forwards;
     }
 
     button.loading:after {
-        opacity: 0;
-        animation: button-dot-pulse 1.5s infinite 0.5s;
+      opacity: 0;
+      animation: button-dot-pulse 1.5s infinite 0.5s;
     }
 
     button.ready {
-        text-indent: 0;
-        color: transparent;
-        background-color: #5585ff;
-        animation: button-ready 0.333s forwards;
+      text-indent: 0;
+      color: transparent;
+      background-color: #5585ff;
+      animation: button-ready 0.333s forwards;
     }
 
     button.ready:before {
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: auto;
-        margin: 0;
-        width: auto;
-        height: auto;
-        border-radius: 0;
-        background-color: transparent;
-        color: #8cce1e;
-        content: 'ready => ';
-        opacity: 0;
-        z-index: 2;
-        animation: button-ready-label 0.5s forwards 0.275s;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: auto;
+      margin: 0;
+      width: auto;
+      height: auto;
+      border-radius: 0;
+      background-color: transparent;
+      color: #8cce1e;
+      content: "ready => ";
+      opacity: 0;
+      z-index: 2;
+      animation: button-ready-label 0.5s forwards 0.275s;
     }
 
     button.ready:after {
-        opacity: 1;
-        animation: button-dot-outro 0.333s;
+      opacity: 1;
+      animation: button-dot-outro 0.333s;
     }
-</style>
-
+  </style>
 </html>
