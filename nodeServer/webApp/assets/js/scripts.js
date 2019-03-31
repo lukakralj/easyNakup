@@ -10,7 +10,7 @@ function displayTable() {
     let modalsInner = ""
 
     const Http = new XMLHttpRequest();
-    const url = 'http://localhost:8080/user/getAll';
+    const url = 'http://localhost:5050/user/getAll';
     let called = false;
     Http.open("GET", url);
     Http.send();
@@ -42,7 +42,7 @@ function displayTable() {
                         completeOrder = "#order_completed" + order._id;
                         $(completeOrder).click(() => {
                             var http1 = new XMLHttpRequest();
-                            var url1 = 'http://localhost:8080/user/remove';
+                            var url1 = 'http://localhost:5050/user/remove';
                             var params = `_id=${order._id}`;
                             http1.open('POST', url1, true);
 
@@ -60,7 +60,7 @@ function displayTable() {
                             displayTable();
 
                             const Http2 = new XMLHttpRequest();
-                            const url2 = 'http://localhost:8080/user/getAll';
+                            const url2 = 'http://localhost:5050/user/getAll';
                             let called1 = false;
                             Http2.open("GET", url2);
                             Http2.send();
@@ -82,7 +82,7 @@ function displayTable() {
                             amount = getAmountOfOrder(order);
                             eta = "50 minutes"
                             var http1 = new XMLHttpRequest();
-                            var url1 = 'http://localhost:8080/user/sendSMS';
+                            var url1 = 'http://localhost:5050/user/sendSMS';
                             var params = `from=${FROM}&to=${TO}&amount=${amount}&eta=${eta}`;
                             http1.open('POST', url1, true);
 

@@ -1,7 +1,13 @@
 import tkinter as tk  
 import processor
 import requests
+import Configs
+from tkinter import *
 from Request import add_order
+from PIL import Image
+from PIL import ImageTk as itk
+
+
 class Application(tk.Frame):       
     def __init__(self, master=None):
         tk.Frame.__init__(self, master)
@@ -34,11 +40,14 @@ class Application(tk.Frame):
         self.quitButton = tk.Button(self, text='QUIT', \
             height=2, width=int(screenW * 0.01), \
             command=self.onQuitClick)   
+       
 
         self.quitButton.grid(row=0, column=1, padx=10, pady=5, sticky=tk.E) 
         self.canvas.grid(row=1, column=0, columnspan=2, pady=10) 
         self.scanButton.grid(row=2, column=0, padx=10, pady=10) 
         self.confirmButton.grid(row=2, column=1, padx=10, pady=10)  
+        print("hey")
+        
 
     def onScanClick(self):
         self.setInfoMessage("Scanning...")
@@ -55,7 +64,7 @@ class Application(tk.Frame):
         self.confirmButton.grid(row=2, column=1, padx=10, pady=10) 
 
     def onConfirmClick(self):
-        print(rawList)
+        print(self.rawList)
         self.onQuitClick()
 
     def onCancelClick(self):

@@ -6,7 +6,7 @@ function addUser(){
     address = $("#address").val() + " " + city + " " + $("#postcode").val() + " " + country;
     extraInfo =  $("#extraInfo").val();
     var http1= new XMLHttpRequest();
-    var url1 = 'http://localhost:8080/user/add';
+    var url1 = 'http://localhost:5050/user/add';
     var params = `user=${name}&email=email@email.com&city=${city}&country=${country}&orderJSON=${extraInfo}&address=${address}&key=123`;
     params = params.replace(" ", "%20")
     console.log(params)

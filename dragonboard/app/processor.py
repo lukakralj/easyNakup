@@ -16,7 +16,7 @@ class Processor():
     def run(self):
         filename = "scan_" + self.getFileName() + ".jpg"
         saveTo = self.savePath + filename
-        os.system("ffmpeg -i /dev/video2 -frames 1 " + saveTo)
+        os.system("ffmpeg -i /dev/video0 -frames 1 " + saveTo)
         success = True
         list = []
         try:
