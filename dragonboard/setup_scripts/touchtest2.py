@@ -11,7 +11,7 @@ pin2.input()
 
 i = 0
 while(i < 1000):
-    print("pin1: " + pin1.getValue() + ", pin2: " + pin2.getValue())
+    print("pin1: " + str(pin1.getValue()) + ", pin2: " + str(pin2.getValue()))
     i += 1
 
 

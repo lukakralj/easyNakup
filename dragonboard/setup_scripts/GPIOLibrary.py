@@ -86,7 +86,7 @@ class GPIO:
         file.close()
 
     def setDirection(self, direction):
-        print PATH + 'gpio' + str(self.pin_number) + '/direction'
+        print(PATH + 'gpio' + str(self.pin_number) + '/direction')
 
         file = open(PATH + 'gpio' + str(self.pin_number) + '/direction'
                     , 'w')
