@@ -1,8 +1,8 @@
 const Nexmo = require("nexmo");
 const cmd = require("node-cmd");
 const nexmo = new Nexmo({
-  apiKey: "5fe9b30c",
-  apiSecret: "ymooFIsoylWeGo7l"
+  apiKey: "INSERT NEXMO API KEY",
+  apiSecret: "INSERT NEXMO SECRET"
 });
 
 const express = require("express");
