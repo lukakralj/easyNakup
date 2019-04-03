@@ -49,4 +49,4 @@ Use at your own risk.
 
 ![](https://media.giphy.com/media/3oKIPnAiaMCws8nOsE/giphy.gif)
 
-* Fig 3 - One of the mentors at [HackKosice](https://hackkosice.com/) debugging our code just minutes before the demo *
+*Fig 3 - One of the mentors at [HackKosice](https://hackkosice.com/) debugging our code just minutes before the demo*
