@@ -27,7 +27,7 @@ The second part is a web application that is meant to be used by the vendors. Th
 *Fig 1 - A view of the DragonBoard's screen and the Shop Dashboard*
 ## How we built it
 We used Dragonboard 410c and a webcam for the face and list scanning and processing.
-The web application is build with NodeJs, MongooseDB, and Socket.io.
+The web application is built with NodeJs, MongooseDB, and Socket.io.
 
 ![The Qualcomm Dragonboard 410c](https://developer.qualcomm.com/sites/default/files/attachments/db410c-top1.png)
 
