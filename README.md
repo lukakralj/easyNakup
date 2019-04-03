@@ -36,7 +36,7 @@ The web application is built with NodeJs, MongooseDB, and Socket.io.
 
 * [Devpost](https://devpost.com/software/easy-nakup)
 * [HackKosice](https://hackkosice.com/)
-* [QualcoDrmm DragonBoard 410c Development Board](https://developer.qualcomm.com/hardware/dragonboard-410c)
+* [Qualcomm DragonBoard 410c Development Board](https://developer.qualcomm.com/hardware/dragonboard-410c)
 
 ## ⚠WARNING⚠
 
