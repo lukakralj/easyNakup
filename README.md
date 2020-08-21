@@ -5,6 +5,10 @@ This project was presented at the [HackKosice](https://hackkosice.com/) hackatho
 * Hack Kosice Top 3 finalist
 * Best IoT Hack using a Qualcomm Device
 
+## Check out the demo! 🎥🛒
+
+[![Demo](http://img.youtube.com/vi/lWFueaT09S4/0.jpg)](https://www.youtube.com/watch?v=lWFueaT09S4 "Demo")
+
 ### Built by
 * [Alvaro Rausell Guiard](https://github.com/AlvaroRausell/)
 * [Danilo Del Busso](https://github.com/danilo-delbusso/)
