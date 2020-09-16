@@ -12,7 +12,7 @@ This project was presented at the [HackKosice](https://hackkosice.com/) hackatho
 ### Built by
 * [Alvaro Rausell Guiard](https://github.com/AlvaroRausell/)
 * [Danilo Del Busso](https://github.com/danilo-delbusso/)
-* [Luka Kralj](https://github.com/lukakralj)
+* [Luka Kralj](https://lukakralj.com)
 
 ## What's the idea?
 Coming from similar regions as Košice, we figured there are many remote villages with a long ride from bigger grocery and medicine suppliers. Often people living in such areas turn out to be the elderly, who might not be able to drive themselves to the shops everyday. Hence, their children have to go and take them around which might not always be possible, due to work, family etc. On the first thought, an online shopping could be a solution but a lot of people are still not comfortable using it, and more importantly, large vendors like Amazon usually don't even deliver in such areas - at least not for a reasonable price.
@@ -38,6 +38,8 @@ The web application is built with NodeJs, MongooseDB, and Socket.io.
 *Fig 2 - The Qualcomm Dragonboard 410c used for the project*
 ## External links
 
+* [Blog post about easyNákup](https://lukakralj.com/easy-nakup/)
+* [Blog post about Hack Košice 2019](https://lukakralj.com/hackkosice/)
 * [Devpost](https://devpost.com/software/easy-nakup)
 * [HackKosice](https://hackkosice.com/)
 * [Qualcomm DragonBoard 410c Development Board](https://developer.qualcomm.com/hardware/dragonboard-410c)
