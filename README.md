@@ -1,6 +1,6 @@
-![](https://imgur.com/I5hgkvq.png)
-## 🥇 1st Place Winner at [HackKosice](https://hackkosice.com/)🥇
-This project was presented at the [HackKosice](https://hackkosice.com/) hackathon and won the following prizes:
+![https://hackkosice.com/hk19/](https://imgur.com/I5hgkvq.png)
+## 🥇 1st Place Winner at [HackKosice](https://hackkosice.com/hk19/)🥇
+This project was presented at the [HackKosice](https://hackkosice.com/hk19/) hackathon and won the following prizes:
 * Top Team Overall
 * Hack Kosice Top 3 finalist
 * Best IoT Hack using a Qualcomm Device
@@ -11,7 +11,7 @@ This project was presented at the [HackKosice](https://hackkosice.com/) hackatho
 
 ### Built by
 * [Alvaro Rausell Guiard](https://github.com/AlvaroRausell/)
-* [Danilo Del Busso](https://github.com/danilo-delbusso/)
+* [Danilo Del Busso](https://www.danilo-delbusso.me/)
 * [Luka Kralj](https://lukakralj.com)
 
 ## What's the idea?
