@@ -11,7 +11,7 @@ This project was presented at the [HackKosice](https://hackkosice.com/hk19/) hac
 
 ### Built by
 * [Alvaro Rausell Guiard](https://github.com/AlvaroRausell/)
-* [Danilo Del Busso](https://www.danilo-delbusso.me/)
+* [Danilo Del Busso](https://www.danilo.del-busso.com/)
 * [Luka Kralj](https://lukakralj.com)
 
 ## What's the idea?
